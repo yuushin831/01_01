@@ -155,6 +155,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		(IDXGISwapChain1**)&swapChain);
 	assert(SUCCEEDED(result));
 
+	// デスクリプタヒープの設定
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー
+	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount; // 裏表の2つ
+	// デスクリプタヒープの生成
+	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
+
 
 // DirectX初期化処理 ここまで
 // ゲームループ
