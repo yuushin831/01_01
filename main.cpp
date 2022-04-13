@@ -25,6 +25,15 @@ LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) 
 {
+#ifdef _DEBUG
+	//デバッグレイヤーをオンに
+	ID3D12Debug* debugController;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
+		debugController->EnableDebugLayer();
+	}
+#endif
+
+	main.cpp - WinMain
 	// コンソールへの文字出力
 	OutputDebugStringA("Hello,DirectX！\n");
 	// ウィンドウサイズ
@@ -187,6 +196,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ID3D12Fence* fence = nullptr;
 	UINT64 fenceVal = 0;
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+
+
 
 // DirectX初期化処理 ここまで
 // ゲームループ
